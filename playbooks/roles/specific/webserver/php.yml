@@ -1,0 +1,22 @@
+---
+- hosts: [webservers]
+  become: true
+  gather_facts: yes
+
+  tasks:
+    
+  - name: Install php
+    apt:
+      name: "php libapache2-mod-php php-mysql"
+      state: present
+
+  - name: copy dir.conf
+    copy: src=/etc/apache2/mods-enabled/dir.conf dest=/etc/apache2/mods-enabled/dir.conf
+  - name: copy index.php
+    copy: src=/var/www/html dest=/var/www/html
+
+  - name: apache service state
+    service:
+      name: apache2
+      state: started
+      enabled: yes
