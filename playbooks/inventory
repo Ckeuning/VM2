@@ -8,5 +8,6 @@ web02 ansible_host=192.168.20.22
 [loadbalancer]
 lb01 ansible_host=192.168.20.31
 
-[databases]
+[database]
+db01 ansible_host=192.168.20.41
  

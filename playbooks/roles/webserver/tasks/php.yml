@@ -1,0 +1,28 @@
+---
+- name: Install php
+  apt:
+    name: "php"
+    state: present
+- name: Install libapache2-mod-php
+  apt:
+    name: "libapache2-mod-php"
+    state: present
+- name: Install php-mysql
+  apt:
+    name: "php-mysql"
+    state: present
+
+- name: copy dir.conf
+  copy: src=/etc/apache2/mods-enabled/dir.conf dest=/etc/apache2/mods-enabled/dir.conf
+- name: Remove index.html
+  file:
+    path: /var/www/html/index.html
+    state: absent
+- name: copy index.php
+  copy: src=~/HDD/VM2/playbooks/roles/webserver/files/index.php dest=/var/www/html
+
+- name: apache service state
+  service:
+    name: apache2
+    state: started
+    enabled: yes

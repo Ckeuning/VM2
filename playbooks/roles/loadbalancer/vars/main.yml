@@ -1,0 +1,10 @@
+---
+    haproxy_app_name: haproxy
+    haproxy_mode: http
+    haproxy_enable_stats: enable
+    haproxy_algorithm: roundrobin
+    haproxy_backend_servers:
+      - {name: klant1-productie-web01, ip: 192.168.20.21, port: 80, paramstring: cookie A check}
+      - {name: klant1-productie-web02, ip: 192.168.20.22, port: 80, paramstring: cookie B check}
+    haproxy_stats_users:
+      - {username: vagrant, password: vagrant}

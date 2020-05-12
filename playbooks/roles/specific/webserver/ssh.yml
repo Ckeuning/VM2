@@ -1,5 +1,0 @@
-  - name: Add host to group
-    add_host:
-      name: '{{klant1-productie-web0#{i}'
-      groups:
-        - webservers
