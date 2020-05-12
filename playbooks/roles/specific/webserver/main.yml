@@ -1,4 +1,6 @@
 ---
-- hosts: [webservers]
+- hosts: [all]
 - import_playbook: apache.yml
 - import_playbook: php.yml
+- import_playbook: haproxy.yml
+- import_playbook: ntp-install.yml

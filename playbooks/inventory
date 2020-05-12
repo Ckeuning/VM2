@@ -2,10 +2,11 @@
 ansible_python_interpreter=/usr/bin/python3
 
 [webservers]
-klant1-productie-web01 ansible_host=127.0.0.1 ansible_port=2222
-klant1-productie-web02 ansible_host=127.0.0.1 ansible_port=2223
+web01 ansible_host=192.168.20.21
+web02 ansible_host=192.168.20.22
 
-[loadbalancers]
+[loadbalancer]
+lb01 ansible_host=192.168.20.31
 
 [databases]
  
