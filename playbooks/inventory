@@ -1,5 +1,6 @@
 [all:vars]
-ansible_python_interpreter=/usr/bin/python3
+ansible_python_interpreter=python3
+
 
 [webservers]
 web01 ansible_host=192.168.20.21
