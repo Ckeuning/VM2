@@ -14,10 +14,12 @@
 
 - name: copy dir.conf
   copy: src=/etc/apache2/mods-enabled/dir.conf dest=/etc/apache2/mods-enabled/dir.conf
+
 - name: Remove index.html
   file:
     path: /var/www/html/index.html
     state: absent
+
 - name: copy index.php
   copy: src=~/HDD/VM2/playbooks/roles/webserver/files/index.php dest=/var/www/html
 
