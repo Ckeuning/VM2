@@ -9,24 +9,6 @@
       <title>SkyLab</title>
    </head>
    <body>
-      <?php require_once 'process.php'; ?>
-
-      <?php
-         if ($msgsend == true): ?>
-
-         <div class="alert alert-<?=$_SESSION['msg_type']?>">
-
-            <?php
-               echo $_SESSION['message'];
-
-               
-
-            ?>
-         </div>
-         <?php endif ?>
-
-
-
       <div class="container">
       <?php
          $mysqli = new mysqli('192.168.20.41','vagrant','vagrant', 'skylab') or die(mysqli_error($mysqli));
@@ -75,18 +57,19 @@
             <form action="process.php" method="POST">
                <div class="form-group">
                   <label>Customer</label>
-                  <input type="text" name="klant" class="form-control" placeholder="Voer uw naam in">
+                  <input type="text" name="klant" class="form-control"  placeholder="Enter your name">
                </div>
                <div class="form-group">
                   <label>Environment</label>
-                  <input type="text" name="omgeving" class="form-control" placeholder="Wilt u een productie of test omgeving">
+                  <input type="text" name="omgeving" class="form-control" placeholder="Production or test environment?">
                </div>
                <div class="form-group">
                   <label>Servername</label>
-                  <input type="text" name="servernaam" class="form-control" placeholder="Voer uw servernaam in">
+                  <input type="text" name="servernaam" class="form-control"  placeholder="Enter your servername">
                </div>
                <div class="form-group">
                   <button type="submit" class="btn btn-primary" name="save">Add environment</button>
+            
                </div>
             </form>
          </div>
