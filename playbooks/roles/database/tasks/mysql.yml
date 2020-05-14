@@ -1,0 +1,40 @@
+---
+- name: python3-mysqldb
+  apt: 
+    name: "python3-mysqldb"
+    state: present
+
+- name: Install MySQL
+  apt: 
+    name: "mysql-server"
+    state: present
+
+- name: copy cnf
+  copy: src=~/HDD/VM2/playbooks/roles/database/files/my.cnf dest=/etc/mysql/my.cnf
+
+- name: Restart the MySQL service
+  service: 
+    name: mysql 
+    state: restarted
+    enabled: true
+
+- name: Add user and privileges
+  mysql_user: 
+    name: vagrant 
+    host: "%" 
+    password: "vagrant"
+    login_user: vagrant
+    login_password: "vagrant"
+    check_implicit_admin: yes
+    priv: "*.*:ALL,GRANT"
+  with_items:
+    - "klant1-productie-db01"
+    - 127.0.0.1
+    - ::1
+     - localhost 
+
+- name: Create database skylab
+  mysql_db:
+    name: skylab
+    state: present
+

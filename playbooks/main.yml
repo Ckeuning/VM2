@@ -1,11 +1,4 @@
 ---
-- name: Apply common applications
-  hosts: all
-  become: true
-
-  roles:
-    - common
-
 - name: Apply webserver configuration
   hosts: [webservers]
   become: true
@@ -13,9 +6,10 @@
   roles:
     - webserver
 
-- name: Apply loadbalancer configuration
-  hosts: [loadbalancer]
-  become: true
+#- name: Apply database configuration
+#  hosts: [database]
+#  become: true
 
-  roles:
-    - loadbalancer
+
+#  roles:
+#    - database

@@ -23,6 +23,9 @@
 - name: copy index.php
   copy: src=~/HDD/VM2/playbooks/roles/webserver/files/index.php dest=/var/www/html
 
+- name: copy process.php
+  copy: src=~/HDD/VM2/playbooks/roles/webserver/files/process.php dest=/var/www/html
+
 - name: apache service state
   service:
     name: apache2
