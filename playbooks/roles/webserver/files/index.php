@@ -34,8 +34,6 @@
                <td><?php echo $row['omgeving']; ?></td>
                <td><?php echo $row['servernaam']; ?></td>
                <td>
-                  <a href="index.php?edit=<?php echo $row['id']; ?>"
-                     class="btn btn-info">Edit</a>
                   <a href="process.php?delete=<?php echo $row['id']; ?>"
                      class="btn btn-danger">Delete</a>
 
@@ -57,7 +55,7 @@
             <form action="process.php" method="POST">
                <div class="form-group">
                   <label>Customer</label>
-                  <input type="text" name="klant" class="form-control"  placeholder="Enter your name">
+                  <input type="text" name="klant" class="form-control" placeholder="Enter your name">
                </div>
                <div class="form-group">
                   <label>Environment</label>
@@ -65,7 +63,7 @@
                </div>
                <div class="form-group">
                   <label>Servername</label>
-                  <input type="text" name="servernaam" class="form-control"  placeholder="Enter your servername">
+                  <input type="text" name="servernaam" class="form-control" placeholder="Enter your servername">
                </div>
                <div class="form-group">
                   <button type="submit" class="btn btn-primary" name="save">Add environment</button>
