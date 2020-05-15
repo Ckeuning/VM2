@@ -16,6 +16,7 @@ echo "3)  Beëindig de sessie"
 
 while :
 do
+	servernaam=""
 	read INPUT_STRING
 	case $INPUT_STRING in
 		1)
@@ -108,40 +109,78 @@ do
 									echo "U heeft server pakket $id gekozen"
 									echo "Uw server heeft de naam: "
 									printf "\n"
-									echo "$klant-$omgeving-wbsrv0$id"
+									servernaam="$klant-$omgeving-wbsrv0$id"
+									echo "---------------------------"
+									echo "$servernaam"
 									echo "----------------------------"
+									
+									mysql --login-path=local skylab<< EOF
+									insert into customer (klant,omgeving,servernaam) values ('$klant' , 
+									'$omgeving', '$servernaam');
+EOF
 									;;
 									
 								2 )	printf "\n"	
 									id="1"
 									echo "U heeft server pakket $id gekozen"
 									echo "Uw servers hebben de naam:"
-									echo "----------------------------"
-									echo "$klant-$omgeving-wbsrv0$id"
+									
+									servernaam="$klant-$omgeving-wbsrv0$id"
+									echo "---------------------------"
+									echo "$servernaam"
+									
+									mysql --login-path=local skylab<< EOF
+									insert into customer (klant,omgeving,servernaam) values ('$klant' , 
+									'$omgeving', '$servernaam');
+EOF
 									printf "\n"
-									echo "$klant-$omgeving-db0$id"
+									servernaam="$klant-$omgeving-db0$id"
+									
+									echo "$servernaam"
 									echo "----------------------------"
+									mysql --login-path=local skylab<< EOF
+									insert into customer (klant,omgeving,servernaam) values ('$klant' , 
+									'$omgeving', '$servernaam');
+EOF
 									;;
 									
 								3 )	id="1"
 									echo "U heeft server pakket $id gekozen"
-									echo "Uw servers hebben de naam: "
+									echo "Uw servers hebben de naam:"
 									echo "----------------------------"
-									echo "$klant-$omgeving-wbsrv0$id "
+									servernaam="$klant-$omgeving-wbsrv0$id"
+									echo "$servernaam"
+									mysql --login-path=local skylab<< EOF
+									insert into customer (klant,omgeving,servernaam) values ('$klant' , 
+									'$omgeving', '$servernaam');
+EOF
 									printf "\n"
 									id="2"
-									echo "$klant-$omgeving-wbsrv0$id "
+									servernaam="$klant-$omgeving-wbsrv0$id"
+									echo "$servernaam"
+									mysql --login-path=local skylab<< EOF
+									insert into customer (klant,omgeving,servernaam) values ('$klant' , 
+									'$omgeving', '$servernaam');
+EOF
 									printf "\n"
 									id="1"
-									echo "$klant-$omgeving-lb0$id "
+									servernaam="$klant-$omgeving-lb0$id"
+									echo "$servernaam"
+									mysql --login-path=local skylab<< EOF
+									insert into customer (klant,omgeving,servernaam) values ('$klant' , 
+									'$omgeving', '$servernaam');
+EOF
 									printf "\n"
-									echo "$klant-$omgeving-db0$id "
+									servernaam="$klant-$omgeving-db0$id"
+									echo "$servernaam"
+									mysql --login-path=local skylab<< EOF
+									insert into customer (klant,omgeving,servernaam) values ('$klant' , 
+									'$omgeving', '$servernaam');
+EOF
 									echo "----------------------------"
 									;;
-
-
-
-								* )	echo "----------------------------------------------------------------"
+								* )	
+									echo "----------------------------------------------------------------"
 									echo " U heeft de verkeerde optie gekozen, het portaal wordt gesloten"
 									echo "----------------------------------------------------------------"
 									break

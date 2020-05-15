@@ -1,3 +1,0 @@
-mysql --login-path=local skylab<< EOF
-insert into customer (klant,omgeving,servernaam) values ('$_klant' , '$_omgeving', '$_servernaam');
-EOF
