@@ -216,7 +216,7 @@ EOF
 								read definitief1
 								echo "Typ uw tier in"
 								read definitief2
-								
+							
 
 								case $definitief2 in
 									low )
