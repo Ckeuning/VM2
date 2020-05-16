@@ -40,27 +40,28 @@ echo "3)  Beëindig de sessie"
 			 	2 )
 					echo "Voer uw naam in"
 					read klant
-					#mkdir ~/HDD/VM2/klant/mid/$klant
+					mkdir ~/HDD/VM2/klant/mid/$klant
 					printf "\n"
 					echo "Uw directory is aangemaakt"
 					printf "\n"
-					#cd ~/HDD/VM2/klant/mid/$klant/
-					#vagrant init
+					cd ~/HDD/VM2/klant/mid/$klant/
+					vagrant init
 					;;
 				3 )
 					echo "Voer uw naam in"
 					read klant
-					#mkdir ~/HDD/VM2/klant/high/$klant
+					mkdir ~/HDD/VM2/klant/high/$klant
 					printf "\n"
 					echo "Uw directory is aangemaakt"
 					printf "\n"
-					#cd ~/HDD/VM2/klant/high/$klant/
-					#vagrant init
+					cd ~/HDD/VM2/klant/high/$klant/
+					vagrant init
 					;;
-				* )	echo "----------------------------------------------------------------"
+				* )	
+					echo "----------------------------------------------------------------"
 					echo " U heeft de verkeerde optie gekozen, het portaal wordt gesloten"
 					echo "----------------------------------------------------------------"
-					break
+					;;
 			esac
 
 					printf "\n"
@@ -91,11 +92,6 @@ echo "3)  Beëindig de sessie"
 							echo " U heeft de verkeerde optie gekozen, het portaal wordt gesloten"
 							echo "----------------------------------------------------------------"
 					esac
-
-					
-
-							
-					
 							echo "Kies het serverpakket"
 							printf "\n"
 							echo  "Maak een keuze"
@@ -221,8 +217,15 @@ EOF
 								case $definitief2 in
 									low )
 											if [ -d "/home/vagrant/HDD/VM2/klant/$definitief2/$definitief1" ]; then
-												echo "uw omgeving is verwijderd"
+												cd /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1/
+												vagrant destroy --force
 												rm -rf /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1
+												
+												mysql --login-path=local skylab<< EOF
+												DELETE from customer where servernaam like '%$definitief1%';
+EOF
+												echo "uw omgeving is verwijderd"
+
 												else
 													echo "U heeft de verkeerd gegevens in gevuld," 
 													echo "of u heeft geen omgeving aangemaakt."
@@ -231,8 +234,16 @@ EOF
 											
 											;;
 									mid )	if [ -d "/home/vagrant/HDD/VM2/klant/$definitief2/$definitief1" ]; then
-												echo "uw omgeving is verwijderd"
+												cd /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1/
+												vagrant destroy --force
 												rm -rf /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1
+												mysql --login-path=local skylab<< EOF
+												mysql --login-path=local skylab<< EOF
+												DELETE from customer where servernaam like '%$definitief1%';
+EOF
+
+												echo "uw omgeving is verwijderd"
+
 												else
 													echo "U heeft de verkeerd gegevens in gevuld," 
 													echo "of u heeft geen omgeving aangemaakt."
@@ -241,8 +252,15 @@ EOF
 											;;
 									high ) 	
 											if [ -d "/home/vagrant/HDD/VM2/klant/$definitief2/$definitief1" ]; then
-												echo "uw omgeving is verwijderd"
+												cd /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1/
+												vagrant destroy --force
 												rm -rf /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1
+												mysql --login-path=local skylab<< EOF
+												mysql --login-path=local skylab<< EOF
+												DELETE from customer where servernaam like '%$definitief1%';
+EOF
+												echo "uw omgeving is verwijderd"
+
 												else
 													echo "U heeft de verkeerd gegevens in gevuld," 
 													echo "of u heeft geen omgeving aangemaakt."
