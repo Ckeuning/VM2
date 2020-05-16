@@ -7,7 +7,12 @@ echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 printf "\n"
 printf "\n"
 printf "\n"
+i=true;
+while [[ $i == true ]]; do
 
+
+	
+printf "\n"
 echo "      Maak een keuze"
 echo "---------------------------"
 echo "1)  Maak een omgeving"
@@ -16,7 +21,8 @@ echo "3)  Beëindig de sessie"
 
 	read INPUT_STRING
 	case $INPUT_STRING in
-		1)
+		1)	
+			echo -e '\0033\0143'
 			echo "In welke tier wilt u uw omgeving plaatsen?"
 			echo "Maak een keuze"
 			echo "---------------------------"
@@ -25,9 +31,11 @@ echo "3)  Beëindig de sessie"
 			echo "3) high"
 			read tier
 			case $tier in
+
 				
 				
 				1 )	
+					echo -e '\0033\0143'
 					echo "Voer uw naam in"
 					read klant
 					mkdir ~/HDD/VM2/klant/low/$klant
@@ -37,7 +45,8 @@ echo "3)  Beëindig de sessie"
 					cd ~/HDD/VM2/klant/low/$klant/
 					vagrant init
 					;;
-			 	2 )
+			 	2 )	
+					echo -e '\0033\0143'
 					echo "Voer uw naam in"
 					read klant
 					mkdir ~/HDD/VM2/klant/mid/$klant
@@ -48,6 +57,7 @@ echo "3)  Beëindig de sessie"
 					vagrant init
 					;;
 				3 )
+					echo -e '\0033\0143'
 					echo "Voer uw naam in"
 					read klant
 					mkdir ~/HDD/VM2/klant/high/$klant
@@ -58,15 +68,15 @@ echo "3)  Beëindig de sessie"
 					vagrant init
 					;;
 				* )	
+					echo -e '\0033\0143'
 					echo "----------------------------------------------------------------"
 					echo " U heeft de verkeerde optie gekozen, het portaal wordt gesloten"
 					echo "----------------------------------------------------------------"
+					break
 					;;
 			esac
 
-					printf "\n"
-					printf "\n"
-					printf "\n"
+					echo -e '\0033\0143'
 					echo "In wat voor omgeving wilt u uw omgeving plaatsen?"
 					printf "\n"
 					echo "Maak een keuze"
@@ -78,20 +88,30 @@ echo "3)  Beëindig de sessie"
 					printf "\n"
 					read omgeving
 					case $omgeving in
-						productie )
-							echo "U heeft een test omgeving gekozen"
-							printf "\n"
-							printf "\n"
-							;;
+						
+					productie ) 
+								echo -e '\0033\0143'
+								echo "U heeft een test omgeving gekozen"
+								printf "\n"
+								printf "\n"
+								;;
+							
 						test )	
-							echo "U heeft een productie omgeving gekozen"
-							printf "\n"
-							printf "\n"
-							;;
-						* )	echo "----------------------------------------------------------------"
-							echo " U heeft de verkeerde optie gekozen, het portaal wordt gesloten"
-							echo "----------------------------------------------------------------"
+								echo -e '\0033\0143'
+								echo "U heeft een productie omgeving gekozen"
+								printf "\n"
+								printf "\n"
+								;;
+
+							* )	
+								echo -e '\0033\0143'
+								echo "----------------------------------------------------------------"
+								echo " U heeft de verkeerde optie gekozen, het portaal wordt gesloten"
+								echo "----------------------------------------------------------------"
+								break
+								;;
 					esac
+							echo -e '\0033\0143'
 							echo "Kies het serverpakket"
 							printf "\n"
 							echo  "Maak een keuze"
@@ -102,7 +122,8 @@ echo "3)  Beëindig de sessie"
 						    printf "\n"
 						    read id 
 						    case $id in
-						    	1 )	printf "\n"
+						    	1 )	
+									echo -e '\0033\0143'
 									echo "U heeft server pakket $id gekozen"
 									echo "Uw server heeft de naam: "
 									printf "\n"
@@ -117,7 +138,7 @@ echo "3)  Beëindig de sessie"
 EOF
 									;;
 									
-								2 )	printf "\n"	
+								2 )	echo -e '\0033\0143'
 									id="1"
 									echo "U heeft server pakket $id gekozen"
 									echo "Uw servers hebben de naam:"
@@ -142,7 +163,7 @@ EOF
 									;;
 									
 								3 )	
-									printf "\n"
+									echo -e '\0033\0143' 
 									id="1"
 									echo "U heeft server pakket $id gekozen"
 									echo "Uw servers hebben de naam:"
@@ -179,6 +200,7 @@ EOF
 									echo "----------------------------"
 									;;
 								* )	
+									echo -e '\0033\0143'
 									echo "----------------------------------------------------------------"
 									echo " U heeft de verkeerde optie gekozen, het portaal wordt gesloten"
 									echo "----------------------------------------------------------------"
@@ -186,7 +208,7 @@ EOF
 							esac
 							;;
 						
-			2) 
+			2) 	echo -e '\0033\0143'
 				printf "\n"
 				echo "Wilt u uw omgeving verwijderen?"
 				printf "\n"
@@ -198,80 +220,96 @@ EOF
 				read delete
 				case $delete in
 					1 )
+						echo -e '\0033\0143'
 						echo "Weet u het zeker?"
 						printf "\n"
 							echo  "Maak een keuze"
 							echo "--------------------"
 							echo "1)  Nu verwijderen!"
 							echo "2)  NOOIT!"
-						printf "\n"
+						
 						read deleted
 						case $deleted in
-							1 )
+							1 )	
+								echo -e '\0033\0143'
 								echo "Typ uw naam in om het verwijderen te bevestigen!"
 								read definitief1
+								echo "----------------------------"
 								echo "Typ uw tier in"
 								read definitief2
+								echo "----------------------------"
 							
 
 								case $definitief2 in
-									low )
+									low )	echo -e '\0033\0143'
 											if [ -d "/home/vagrant/HDD/VM2/klant/$definitief2/$definitief1" ]; then
 												cd /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1/
 												vagrant destroy --force
 												rm -rf /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1
-												
 												mysql --login-path=local skylab<< EOF
 												DELETE from customer where servernaam like '%$definitief1%';
 EOF
+												echo "----------------------------"
 												echo "uw omgeving is verwijderd"
+												echo "----------------------------"
 
 												else
-													echo "U heeft de verkeerd gegevens in gevuld," 
+													echo "----------------------------------------"
+													echo "U heeft de verkeerde gegevens in gevuld," 
 													echo "of u heeft geen omgeving aangemaakt."
+													echo "----------------------------------------"
 
 											fi 
-											
 											;;
-									mid )	if [ -d "/home/vagrant/HDD/VM2/klant/$definitief2/$definitief1" ]; then
+									mid )		echo -e '\0033\0143'
+											if [ -d "/home/vagrant/HDD/VM2/klant/$definitief2/$definitief1" ]; then
 												cd /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1/
 												vagrant destroy --force
 												rm -rf /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1
 												mysql --login-path=local skylab<< EOF
-												mysql --login-path=local skylab<< EOF
 												DELETE from customer where servernaam like '%$definitief1%';
 EOF
 
+												echo "----------------------------"
 												echo "uw omgeving is verwijderd"
+												echo "----------------------------"
 
 												else
-													echo "U heeft de verkeerd gegevens in gevuld," 
+													echo "----------------------------------------"
+													echo "U heeft de verkeerde gegevens in gevuld," 
 													echo "of u heeft geen omgeving aangemaakt."
+													echo "----------------------------------------"
 
 											fi 	
 											;;
-									high ) 	
+									high ) 	echo -e '\0033\0143'
 											if [ -d "/home/vagrant/HDD/VM2/klant/$definitief2/$definitief1" ]; then
 												cd /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1/
 												vagrant destroy --force
 												rm -rf /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1
 												mysql --login-path=local skylab<< EOF
-												mysql --login-path=local skylab<< EOF
 												DELETE from customer where servernaam like '%$definitief1%';
 EOF
+												echo "----------------------------"
 												echo "uw omgeving is verwijderd"
+												echo "----------------------------"
 
 												else
-													echo "U heeft de verkeerd gegevens in gevuld," 
+													echo "----------------------------------------"
+													echo "U heeft de verkeerde gegevens in gevuld," 
 													echo "of u heeft geen omgeving aangemaakt."
+													echo "----------------------------------------"
 
 											fi 
 											;;
 
-									* )	
-											echo "----------------------------------------------------------------"
-											echo " U heeft de verkeerde ingetypt, het portaal wordt gesloten"
-											echo "----------------------------------------------------------------"
+									* )		
+											echo -e '\0033\0143'
+											echo "---------------------------------------------------------------------"
+											echo " U heeft de verkeerde gegevens ingetypt, het portaal wordt gesloten"
+											echo "---------------------------------------------------------------------"
+											printf "\n"
+											break
 											;;
 								esac
 								;;
@@ -281,19 +319,30 @@ EOF
 						esac
 						;;
 
-					* )	echo "----------------------------------------------------------------"
+					* )	
+						echo -e '\0033\0143'
+						echo "----------------------------------------------------------------"
 						echo " U heeft de verkeerde optie gekozen, het portaal wordt gesloten"
 						echo "----------------------------------------------------------------"
+						break
 						;;
 
 				esac
 				;;
-			esac
-			
-printf "\n"
 
+			3 )	
+				echo -e '\0033\0143'
+				;;
+				
+			
+esac
+			
+
+printf "\n"
 echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 echo "@                                                       @"
 echo "@           WE HOPEN U SNEL WEER TE ZIEN                @"
 echo "@                                                       @"
 echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+i=false;
+done
