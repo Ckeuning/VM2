@@ -224,15 +224,16 @@ EOF
 								read definitief1
 								echo "Typ uw tier in"
 								read definitief2
+								
+
 								case $definitief2 in
 									low )
-											if [[ -d "~/HDD/VM2/klant/low/$definitief1" ]] && 
+											if [ -d "/home/vagrant/HDD/VM2/klant/$definitief2/$definitief1" ]; then
 												echo "uw omgeving is verwijderd"
-												rm -rf ~/HDD/VM2/klant/low/$definitief1
-												
+												rm -rf /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1
 												else
-													echo "U heeft de verkeerd gegevens in gevuld \n
-															Of u heeft geen omgeving aangemaakt."
+													echo "U heeft de verkeerd gegevens in gevuld," 
+													echo "of u heeft geen omgeving aangemaakt."
 
 											fi 
 											
