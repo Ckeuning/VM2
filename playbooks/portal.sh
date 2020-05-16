@@ -14,9 +14,6 @@ echo "1)  Maak een omgeving"
 echo "2)  Verwijder je omgeving"
 echo "3)  Beëindig de sessie"
 
-while :
-do
-	servernaam=""
 	read INPUT_STRING
 	case $INPUT_STRING in
 		1)
@@ -28,15 +25,17 @@ do
 			echo "3) high"
 			read tier
 			case $tier in
-				1 ) 
+				
+				
+				1 )	
 					echo "Voer uw naam in"
 					read klant
-					#mkdir ~/HDD/VM2/klant/low/$klant
+					mkdir ~/HDD/VM2/klant/low/$klant
 					printf "\n"
 					echo "Uw directory is aangemaakt"
 					printf "\n"
-					#cd ~/HDD/VM2/klant/low/$klant/
-					#vagrant init
+					cd ~/HDD/VM2/klant/low/$klant/
+					vagrant init
 					;;
 			 	2 )
 					echo "Voer uw naam in"
@@ -61,10 +60,11 @@ do
 				* )	echo "----------------------------------------------------------------"
 					echo " U heeft de verkeerde optie gekozen, het portaal wordt gesloten"
 					echo "----------------------------------------------------------------"
-					break
-					;;
 			esac
+					
 
+					
+				
 					printf "\n"
 					printf "\n"
 					printf "\n"
@@ -93,8 +93,8 @@ do
 							echo " U heeft de verkeerde optie gekozen, het portaal wordt gesloten"
 							echo "----------------------------------------------------------------"
 							break
-							;;	
-					esac
+							
+					
 							echo "Kies het serverpakket"
 							printf "\n"
 							echo  "Maak een keuze"
@@ -144,7 +144,9 @@ EOF
 EOF
 									;;
 									
-								3 )	id="1"
+								3 )	
+									printf "\n"
+									id="1"
 									echo "U heeft server pakket $id gekozen"
 									echo "Uw servers hebben de naam:"
 									echo "----------------------------"
@@ -184,19 +186,88 @@ EOF
 									echo " U heeft de verkeerde optie gekozen, het portaal wordt gesloten"
 									echo "----------------------------------------------------------------"
 									break
-									;;
-									
-									
-						    esac
+							esac
+							;;
+						esac
+						;;
+					
+			
 
-					esac
-	
+
+			2) 
+				printf "\n"
+				echo "Wilt u uw omgeving verwijderen?"
+				printf "\n"
+							echo  "Maak een keuze"
+							echo "--------------------"
+							echo "1)  Jazeker"
+							echo "2)  Absoluut niet!"
+				printf "\n"
+				read delete
+				case $delete in
+					1 )
+						echo "Weet u het zeker?"
+						printf "\n"
+							echo  "Maak een keuze"
+							echo "--------------------"
+							echo "1)  Nu verwijderen!"
+							echo "2)  NOOIT!"
+						printf "\n"
+						read deleted
+						case $deleted in
+							1 )
+								echo "Typ uw naam in om het verwijderen te bevestigen!"
+								read definitief1
+								echo "Typ de tier in waar u in zit"
+								read definitief2
+								if [[ "$definitief1" == "$klant" && "$omgeving" == "$klant" ]]; then
+									rm -rf ~/HDD/VM2/klant/$omgeving/$klant
+									echo "uw omgeving is verwijderd"
+
+								fi
+								;;
+								
+								
+							* ) break
+								;;
+						esac
+						;;
+
+					2 )
+						"Weet u het zeker?"
+						
+						
+						;;
+
+					* )	echo "----------------------------------------------------------------"
+						echo " U heeft de verkeerde optie gekozen, het portaal wordt gesloten"
+						echo "----------------------------------------------------------------"
+						;;
+esac
+				
 
 
-done
 
-printf "\n"
-printf "\n"
+
+
+
+
+
+
+
+
+
+
+esac
+
+
+
+
+
+
+
+
+
 printf "\n"
 
 echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"

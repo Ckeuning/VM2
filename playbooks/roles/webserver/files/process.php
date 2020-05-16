@@ -4,12 +4,6 @@ session_start();
 
 $mysqli = new mysqli('192.168.20.41','vagrant','vagrant', 'skylab') or die(mysqli_error($mysqli));
 
-$klant = 'test';
-$omgeving = '';
-$servernaam = '';
-
-
-
 	if (isset($_POST['save'])){
 		$klant = $_POST['klant'];
 		$omgeving = $_POST['omgeving'];
