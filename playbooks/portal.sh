@@ -60,10 +60,11 @@ echo "3)  Beëindig de sessie"
 				* )	echo "----------------------------------------------------------------"
 					echo " U heeft de verkeerde optie gekozen, het portaal wordt gesloten"
 					echo "----------------------------------------------------------------"
+					break
 			esac
-					
 
-					
+
+			
 				
 					printf "\n"
 					printf "\n"
@@ -92,7 +93,10 @@ echo "3)  Beëindig de sessie"
 						* )	echo "----------------------------------------------------------------"
 							echo " U heeft de verkeerde optie gekozen, het portaal wordt gesloten"
 							echo "----------------------------------------------------------------"
-							break
+					esac
+
+					
+
 							
 					
 							echo "Kies het serverpakket"
@@ -188,8 +192,8 @@ EOF
 									break
 							esac
 							;;
-						esac
-						;;
+						
+						
 					
 			
 
@@ -218,14 +222,42 @@ EOF
 							1 )
 								echo "Typ uw naam in om het verwijderen te bevestigen!"
 								read definitief1
-								echo "Typ de tier in waar u in zit"
+								echo "Typ uw tier in"
 								read definitief2
-								if [[ "$definitief1" == "$klant" && "$omgeving" == "$klant" ]]; then
-									rm -rf ~/HDD/VM2/klant/$omgeving/$klant
-									echo "uw omgeving is verwijderd"
+								case $definitief2 in
+									low )
+											if [[ -d "~/HDD/VM2/klant/low/$definitief1" ]] && 
+												echo "uw omgeving is verwijderd"
+												rm -rf ~/HDD/VM2/klant/low/$definitief1
+												
+												else
+													echo "U heeft de verkeerd gegevens in gevuld \n
+															Of u heeft geen omgeving aangemaakt."
 
-								fi
+											fi 
+											
+											;;
+									mid )	if [[ "$definitief1" == "$klant" ]]; then
+											rm -rf ~/HDD/VM2/klant/mid/$klant
+											echo "uw omgeving is verwijderd"
+											fi	
+											;;
+									high ) 	
+											if [[ "$definitief1" == "$klant" ]]; then
+											rm -rf ~/HDD/VM2/klant/high/$klant
+											echo "uw omgeving is verwijderd"
+											fi
+											;;
+
+									* )	
+											echo "----------------------------------------------------------------"
+											echo " U heeft de verkeerde optie gekozen, het portaal wordt gesloten"
+											echo "----------------------------------------------------------------"
+											;;
+								esac
 								;;
+								
+								
 								
 								
 							* ) break
@@ -243,23 +275,14 @@ EOF
 						echo " U heeft de verkeerde optie gekozen, het portaal wordt gesloten"
 						echo "----------------------------------------------------------------"
 						;;
-esac
+
+				esac
+				;;
+			esac
+			
+
+
 				
-
-
-
-
-
-
-
-
-
-
-
-
-
-esac
-
 
 
 
