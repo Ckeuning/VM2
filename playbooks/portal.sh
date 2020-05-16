@@ -63,9 +63,6 @@ echo "3)  Beëindig de sessie"
 					break
 			esac
 
-
-			
-				
 					printf "\n"
 					printf "\n"
 					printf "\n"
@@ -193,11 +190,6 @@ EOF
 							esac
 							;;
 						
-						
-					
-			
-
-
 			2) 
 				printf "\n"
 				echo "Wilt u uw omgeving verwijderen?"
@@ -238,38 +230,37 @@ EOF
 											fi 
 											
 											;;
-									mid )	if [[ "$definitief1" == "$klant" ]]; then
-											rm -rf ~/HDD/VM2/klant/mid/$klant
-											echo "uw omgeving is verwijderd"
-											fi	
+									mid )	if [ -d "/home/vagrant/HDD/VM2/klant/$definitief2/$definitief1" ]; then
+												echo "uw omgeving is verwijderd"
+												rm -rf /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1
+												else
+													echo "U heeft de verkeerd gegevens in gevuld," 
+													echo "of u heeft geen omgeving aangemaakt."
+
+											fi 	
 											;;
 									high ) 	
-											if [[ "$definitief1" == "$klant" ]]; then
-											rm -rf ~/HDD/VM2/klant/high/$klant
-											echo "uw omgeving is verwijderd"
-											fi
+											if [ -d "/home/vagrant/HDD/VM2/klant/$definitief2/$definitief1" ]; then
+												echo "uw omgeving is verwijderd"
+												rm -rf /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1
+												else
+													echo "U heeft de verkeerd gegevens in gevuld," 
+													echo "of u heeft geen omgeving aangemaakt."
+
+											fi 
 											;;
 
 									* )	
 											echo "----------------------------------------------------------------"
-											echo " U heeft de verkeerde optie gekozen, het portaal wordt gesloten"
+											echo " U heeft de verkeerde ingetypt, het portaal wordt gesloten"
 											echo "----------------------------------------------------------------"
 											;;
 								esac
 								;;
-								
-								
-								
-								
+										
 							* ) break
 								;;
 						esac
-						;;
-
-					2 )
-						"Weet u het zeker?"
-						
-						
 						;;
 
 					* )	echo "----------------------------------------------------------------"
@@ -281,17 +272,6 @@ EOF
 				;;
 			esac
 			
-
-
-				
-
-
-
-
-
-
-
-
 printf "\n"
 
 echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
