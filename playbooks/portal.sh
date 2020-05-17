@@ -29,6 +29,7 @@ echo "3)  Beëindig de sessie"
 			echo "1) low"
 			echo "2) mid"
 			echo "3) high"
+
 			read tier
 			case $tier in
 
@@ -44,6 +45,8 @@ echo "3)  Beëindig de sessie"
 					printf "\n"
 					cd ~/HDD/VM2/klant/low/$klant/
 					vagrant init
+					cp /home/vagrant/HDD/VM2/klant/low/klant1/productie/Vagrantfile Vagrantfile
+					
 					;;
 			 	2 )	
 					echo -e '\0033\0143'
@@ -55,6 +58,7 @@ echo "3)  Beëindig de sessie"
 					printf "\n"
 					cd ~/HDD/VM2/klant/mid/$klant/
 					vagrant init
+					cp /home/vagrant/HDD/VM2/klant/low/klant1/productie/Vagrantfile Vagrantfile
 					;;
 				3 )
 					echo -e '\0033\0143'
@@ -66,6 +70,7 @@ echo "3)  Beëindig de sessie"
 					printf "\n"
 					cd ~/HDD/VM2/klant/high/$klant/
 					vagrant init
+					cp /home/vagrant/HDD/VM2/klant/low/klant1/productie/Vagrantfile Vagrantfile
 					;;
 				* )	
 					echo -e '\0033\0143'
@@ -127,15 +132,55 @@ echo "3)  Beëindig de sessie"
 									echo "U heeft server pakket $id gekozen"
 									echo "Uw server heeft de naam: "
 									printf "\n"
-									servernaam="$klant-$omgeving-wbsrv0$id"
+									wbsrv1="$klant-$omgeving-wbsrv0$id"
 									echo "---------------------------"
-									echo "$servernaam"
+									echo "$wbsrv1"
 									echo "----------------------------"
-									
 									mysql --login-path=local skylab<< EOF
 									insert into customer (klant,omgeving,servernaam) values ('$klant' , 
-									'$omgeving', '$servernaam');
+									'$omgeving', '$wbsrv1');
 EOF
+									
+									echo "Uw server wordt gestart, moment alsublieft"
+									echo "----------------------------"
+									if [ -d "/home/vagrant/HDD/VM2/klant/low/$klant" ]; then
+										cd ~/HDD/VM2/klant/low/$klant/
+										sed -i '5s|2|1|' Vagrantfile
+										sed -i '6s|1|0|' Vagrantfile
+										sed -i '7s|1|0|' Vagrantfile
+										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
+										sed -i 's|192.168.20.2|192.168.20.5|' Vagrantfile
+										vagrant up
+									elif [ -d "/home/vagrant/HDD/VM2/klant/mid/$klant" ]; then
+										cd ~/HDD/VM2/klant/mid/$klant/
+										sed -i '5s|2|1|' Vagrantfile
+										sed -i '6s|1|0|' Vagrantfile
+										sed -i '7s|1|0|' Vagrantfile
+										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
+										sed -i 's|192.168.20.2|172.16.20.5|' Vagrantfile
+										vagrant up
+									else 
+										cd ~/HDD/VM2/klant/high/$klant/
+										sed -i '5s|2|1|' Vagrantfile
+										sed -i '6s|1|0|' Vagrantfile
+										sed -i '7s|1|0|' Vagrantfile
+										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
+										sed -i 's|192.168.20.2|10.1.20.5|' Vagrantfile
+										vagrant up
+									fi
+									
+
+
+
+
+									break
+
+
+
+
+
+
+
 									;;
 									
 								2 )	echo -e '\0033\0143'
@@ -143,23 +188,57 @@ EOF
 									echo "U heeft server pakket $id gekozen"
 									echo "Uw servers hebben de naam:"
 									
-									servernaam="$klant-$omgeving-wbsrv0$id"
 									echo "---------------------------"
-									echo "$servernaam"
+									wbsrv1="$klant-$omgeving-wbsrv0$id"
+									echo "$wbsrv1"
 									
 									mysql --login-path=local skylab<< EOF
 									insert into customer (klant,omgeving,servernaam) values ('$klant' , 
-									'$omgeving', '$servernaam');
+									'$omgeving', '$wbsrv1');
 EOF
 									printf "\n"
-									servernaam="$klant-$omgeving-db0$id"
+									dbsrv1="$klant-$omgeving-db0$id"
 									
-									echo "$servernaam"
+									echo "$dbsrv1"
 									echo "----------------------------"
 									mysql --login-path=local skylab<< EOF
 									insert into customer (klant,omgeving,servernaam) values ('$klant' , 
-									'$omgeving', '$servernaam');
+									'$omgeving', '$dbsrv1');
 EOF
+									
+									echo "Uw server wordt gestart, moment alsublieft"
+									echo "----------------------------"
+									if [ -d "/home/vagrant/HDD/VM2/klant/low/$klant" ]; then
+										cd ~/HDD/VM2/klant/low/$klant/
+										sed -i '5s|2|1|' Vagrantfile
+										sed -i '6s|1|0|' Vagrantfile
+										sed -i '7s|1|1|' Vagrantfile
+										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
+										sed -i "s|klant1-productie-db0#{x}|$dbsrv1|g" Vagrantfile
+										sed -i 's|192.168.20.2|192.168.20.5|g' Vagrantfile
+										sed -i 's|192.168.20.4|192.168.20.7|g' Vagrantfile
+										vagrant up
+									elif [ -d "/home/vagrant/HDD/VM2/klant/mid/$klant" ]; then
+										cd ~/HDD/VM2/klant/mid/$klant/
+										sed -i '5s|2|1|' Vagrantfile
+										sed -i '6s|1|0|' Vagrantfile
+										sed -i '7s|1|1|' Vagrantfile
+										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
+										sed -i "s|klant1-productie-db0#{x}|$dbsrv1|g" Vagrantfile
+										sed -i 's|192.168.20.2|172.16.20.5|g' Vagrantfile
+										sed -i 's|192.168.20.4|172.16.20.7|g' Vagrantfile
+										vagrant up
+									else 
+										cd ~/HDD/VM2/klant/high/$klant/
+										sed -i '5s|2|1|' Vagrantfile
+										sed -i '6s|1|0|' Vagrantfile
+										sed -i '7s|1|1|' Vagrantfile
+										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
+										sed -i "s|klant1-productie-db0#{x}|$dbsrv1|g" Vagrantfile
+										sed -i 's|192.168.20.2|10.1.20.5|g' Vagrantfile
+										sed -i 's|192.168.20.4|10.1.20.7|g' Vagrantfile
+										vagrant up
+									fi
 									;;
 									
 								3 )	
@@ -168,36 +247,83 @@ EOF
 									echo "U heeft server pakket $id gekozen"
 									echo "Uw servers hebben de naam:"
 									echo "----------------------------"
-									servernaam="$klant-$omgeving-wbsrv0$id"
-									echo "$servernaam"
+									wbsrv1="$klant-$omgeving-wbsrv0$id"
+									echo "$wbsrv1"
 									mysql --login-path=local skylab<< EOF
 									insert into customer (klant,omgeving,servernaam) values ('$klant' , 
-									'$omgeving', '$servernaam');
+									'$omgeving', '$wbsrv1');
 EOF
 									printf "\n"
 									id="2"
-									servernaam="$klant-$omgeving-wbsrv0$id"
-									echo "$servernaam"
+									wbsrv2="$klant-$omgeving-wbsrv0$id"
+									echo "$wbsrv2"
 									mysql --login-path=local skylab<< EOF
 									insert into customer (klant,omgeving,servernaam) values ('$klant' , 
-									'$omgeving', '$servernaam');
+									'$omgeving', '$wbsrv2');
 EOF
 									printf "\n"
 									id="1"
-									servernaam="$klant-$omgeving-lb0$id"
-									echo "$servernaam"
+									lbsrv1="$klant-$omgeving-lb0$id"
+									echo "$lbsrv1"
 									mysql --login-path=local skylab<< EOF
 									insert into customer (klant,omgeving,servernaam) values ('$klant' , 
-									'$omgeving', '$servernaam');
+									'$omgeving', '$lbsrv1');
 EOF
 									printf "\n"
-									servernaam="$klant-$omgeving-db0$id"
-									echo "$servernaam"
+									dbsrv1="$klant-$omgeving-db0$id"
+									echo "$dbsrv1"
 									mysql --login-path=local skylab<< EOF
 									insert into customer (klant,omgeving,servernaam) values ('$klant' , 
-									'$omgeving', '$servernaam');
+									'$omgeving', '$dbsrv1');
 EOF
 									echo "----------------------------"
+									if [ -d "/home/vagrant/HDD/VM2/klant/low/$klant" ]; then
+										cd ~/HDD/VM2/klant/low/$klant/
+										sed -i '5s|2|1|' Vagrantfile
+										sed -i '6s|1|1|' Vagrantfile
+										sed -i '7s|1|1|' Vagrantfile
+										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
+										sed -i "s|klant1-productie-lb0#{y}|$lbsrv1|g" Vagrantfile
+										sed -i "s|klant1-productie-db0#{x}|$dbsrv1|g" Vagrantfile
+										sed -i 's|192.168.20.2|192.168.20.5|g' Vagrantfile
+										sed -i 's|192.168.20.3|192.168.20.6|g' Vagrantfile
+										sed -i 's|192.168.20.4|192.168.20.7|g' Vagrantfile
+										vagrant up
+										sed -i "s|klant1-productie-web0#{i}|$wbsrv2|g" Vagrantfile
+										sed -i 's|192.168.20.5#{i}|192.168.20.52|g' Vagrantfile
+										vagrant up --provision
+
+									elif [ -d "/home/vagrant/HDD/VM2/klant/mid/$klant" ]; then
+										cd ~/HDD/VM2/klant/mid/$klant/
+										sed -i '5s|2|1|' Vagrantfile
+										sed -i '6s|1|1|' Vagrantfile
+										sed -i '7s|1|1|' Vagrantfile
+										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
+										sed -i "s|klant1-productie-lb0#{y}|$lbsrv1|g" Vagrantfile
+										sed -i "s|klant1-productie-db0#{x}|$dbsrv1|g" Vagrantfile
+										sed -i 's|192.168.20.2|172.16.20.5|g' Vagrantfile
+										sed -i 's|192.168.20.3|172.16.20.6|g' Vagrantfile
+										sed -i 's|192.168.20.4|172.16.20.7|g' Vagrantfile
+										vagrant up
+										sed -i "s|klant1-productie-web0#{i}|$wbsrv2|g" Vagrantfile
+										sed -i 's|192.168.20.5#{i}|172.16.20.52|g' Vagrantfile
+										vagrant up --provision
+									else 
+										cd ~/HDD/VM2/klant/high/$klant/
+										sed -i '5s|2|1|' Vagrantfile
+										sed -i '6s|1|1|' Vagrantfile
+										sed -i '7s|1|1|' Vagrantfile
+										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
+										sed -i "s|klant1-productie-lb0#{y}|$lbsrv1|g" Vagrantfile
+										sed -i "s|klant1-productie-db0#{x}|$dbsrv1|g" Vagrantfile
+										sed -i 's|192.168.20.2|10.1.20.5|g' Vagrantfile
+										sed -i 's|192.168.20.3|10.1.20.6|g' Vagrantfile
+										sed -i 's|192.168.20.4|10.1.20.7|g' Vagrantfile
+										vagrant up
+										sed -i "s|$wbsrv1|$wbsrv2|g" Vagrantfile
+										sed -i 's|192.168.20.5#{i}|10.1.20.52|g' Vagrantfile
+										vagrant up --provision
+									fi
 									;;
 								* )	
 									echo -e '\0033\0143'
@@ -244,6 +370,9 @@ EOF
 									low )	echo -e '\0033\0143'
 											if [ -d "/home/vagrant/HDD/VM2/klant/$definitief2/$definitief1" ]; then
 												cd /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1/
+												sed -i "s|$wbsrv2|$wbsrv1|g" Vagrantfile
+												vagrant destroy --force
+												sed -i "s|$wbsrv1|$wbsrv2|g" Vagrantfile
 												vagrant destroy --force
 												rm -rf /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1
 												mysql --login-path=local skylab<< EOF
@@ -264,6 +393,9 @@ EOF
 									mid )		echo -e '\0033\0143'
 											if [ -d "/home/vagrant/HDD/VM2/klant/$definitief2/$definitief1" ]; then
 												cd /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1/
+												sed -i "s|$wbsrv2|$wbsrv1|g" Vagrantfile
+												vagrant destroy --force
+												sed -i "s|$wbsrv1|$wbsrv2|g" Vagrantfile
 												vagrant destroy --force
 												rm -rf /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1
 												mysql --login-path=local skylab<< EOF
@@ -285,6 +417,9 @@ EOF
 									high ) 	echo -e '\0033\0143'
 											if [ -d "/home/vagrant/HDD/VM2/klant/$definitief2/$definitief1" ]; then
 												cd /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1/
+												sed -i "s|$wbsrv2|$wbsrv1|g" Vagrantfile
+												vagrant destroy --force
+												sed -i "s|$wbsrv1|$wbsrv2|g" Vagrantfile
 												vagrant destroy --force
 												rm -rf /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1
 												mysql --login-path=local skylab<< EOF
