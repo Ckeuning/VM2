@@ -146,24 +146,27 @@ EOF
 									if [ -d "/home/vagrant/HDD/VM2/klant/low/$klant" ]; then
 										cd ~/HDD/VM2/klant/low/$klant/
 										sed -i '5s|2|1|' Vagrantfile
-										sed -i '6s|1|0|' Vagrantfile
+										sed -i '6s|0|0|' Vagrantfile
 										sed -i '7s|1|0|' Vagrantfile
+										sed -i '8s|1|0|' Vagrantfile
 										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
 										sed -i 's|192.168.20.2|192.168.20.5|' Vagrantfile
 										vagrant up
 									elif [ -d "/home/vagrant/HDD/VM2/klant/mid/$klant" ]; then
 										cd ~/HDD/VM2/klant/mid/$klant/
 										sed -i '5s|2|1|' Vagrantfile
-										sed -i '6s|1|0|' Vagrantfile
+										sed -i '6s|0|0|' Vagrantfile
 										sed -i '7s|1|0|' Vagrantfile
+										sed -i '8s|1|0|' Vagrantfile
 										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
 										sed -i 's|192.168.20.2|172.16.20.5|' Vagrantfile
 										vagrant up
 									else 
 										cd ~/HDD/VM2/klant/high/$klant/
 										sed -i '5s|2|1|' Vagrantfile
-										sed -i '6s|1|0|' Vagrantfile
+										sed -i '6s|0|0|' Vagrantfile
 										sed -i '7s|1|0|' Vagrantfile
+										sed -i '8s|1|0|' Vagrantfile
 										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
 										sed -i 's|192.168.20.2|10.1.20.5|' Vagrantfile
 										vagrant up
@@ -370,9 +373,6 @@ EOF
 									low )	echo -e '\0033\0143'
 											if [ -d "/home/vagrant/HDD/VM2/klant/$definitief2/$definitief1" ]; then
 												cd /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1/
-												sed -i "s|$wbsrv2|$wbsrv1|g" Vagrantfile
-												vagrant destroy --force
-												sed -i "s|$wbsrv1|$wbsrv2|g" Vagrantfile
 												vagrant destroy --force
 												rm -rf /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1
 												mysql --login-path=local skylab<< EOF
@@ -395,8 +395,6 @@ EOF
 												cd /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1/
 												sed -i "s|$wbsrv2|$wbsrv1|g" Vagrantfile
 												vagrant destroy --force
-												sed -i "s|$wbsrv1|$wbsrv2|g" Vagrantfile
-												vagrant destroy --force
 												rm -rf /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1
 												mysql --login-path=local skylab<< EOF
 												DELETE from customer where servernaam like '%$definitief1%';
@@ -418,8 +416,6 @@ EOF
 											if [ -d "/home/vagrant/HDD/VM2/klant/$definitief2/$definitief1" ]; then
 												cd /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1/
 												sed -i "s|$wbsrv2|$wbsrv1|g" Vagrantfile
-												vagrant destroy --force
-												sed -i "s|$wbsrv1|$wbsrv2|g" Vagrantfile
 												vagrant destroy --force
 												rm -rf /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1
 												mysql --login-path=local skylab<< EOF
