@@ -16,8 +16,9 @@ printf "\n"
 echo "      Maak een keuze"
 echo "---------------------------"
 echo "1)  Maak een omgeving"
-echo "2)  Verwijder je omgeving"
-echo "3)  Beëindig de sessie"
+echo "2)  Pas je omgeving aan"
+echo "3)  Verwijder je omgeving"
+echo "4)  Beëindig de sessie"
 
 	read INPUT_STRING
 	case $INPUT_STRING in
@@ -39,6 +40,13 @@ echo "3)  Beëindig de sessie"
 					echo -e '\0033\0143'
 					echo "Voer uw naam in"
 					read klant
+					if [ -d "/home/vagrant/HDD/VM2/klant/low/$klant" ]; then
+						echo "-----------------------------------------------"
+						printf "Uw omgeving bestaat al.\nStart de portal opnieuw en kies voor optie 3\n"
+						echo "-----------------------------------------------"
+						break
+					else
+
 					mkdir ~/HDD/VM2/klant/low/$klant
 					printf "\n"
 					echo "Uw directory is aangemaakt"
@@ -46,12 +54,24 @@ echo "3)  Beëindig de sessie"
 					cd ~/HDD/VM2/klant/low/$klant/
 					vagrant init
 					cp /home/vagrant/HDD/VM2/klant/low/klant1/productie/Vagrantfile Vagrantfile
-					
+					touch ansible.cfg
+					touch inventory
+					printf "[defaults]\ninventory = inventory\nhost_key_checking = false" >> ansible.cfg
+					printf "[all:vars]\nansible_python_interpreter=/usr/bin/python3\n\n" >> inventory
+					printf "[webserver]\n\n\n\n[loadbalancer]\n\n\n\n[database]\n\n\n\n" >> inventory
+					fi
 					;;
 			 	2 )	
 					echo -e '\0033\0143'
 					echo "Voer uw naam in"
 					read klant
+					if [ -d "/home/vagrant/HDD/VM2/klant/low/$klant" ]; then
+					
+						echo "-----------------------------------------------"
+						printf "Uw omgeving bestaat al.\nStart de portal opnieuw en kies voor optie 3\n"
+						echo "-----------------------------------------------"
+						break
+					else
 					mkdir ~/HDD/VM2/klant/mid/$klant
 					printf "\n"
 					echo "Uw directory is aangemaakt"
@@ -59,11 +79,24 @@ echo "3)  Beëindig de sessie"
 					cd ~/HDD/VM2/klant/mid/$klant/
 					vagrant init
 					cp /home/vagrant/HDD/VM2/klant/low/klant1/productie/Vagrantfile Vagrantfile
+					touch ansible.cfg
+					touch inventory
+					printf "[defaults]\ninventory = inventory\nhost_key_checking = false" >> ansible.cfg
+					printf "[all:vars]\nansible_python_interpreter=/usr/bin/python3\n\n" >> inventory
+					printf "[webserver]\n\n\n\n[loadbalancer]\n\n\n\n[database]\n\n\n\n" >> inventory
+					fi
 					;;
 				3 )
 					echo -e '\0033\0143'
 					echo "Voer uw naam in"
 					read klant
+					if [ -d "/home/vagrant/HDD/VM2/klant/low/$klant" ]; then
+					
+						echo "-----------------------------------------------"
+						printf "Uw omgeving bestaat al.\nStart de portal opnieuw en kies voor optie 3\n"
+						echo "-----------------------------------------------"
+						break
+					else
 					mkdir ~/HDD/VM2/klant/high/$klant
 					printf "\n"
 					echo "Uw directory is aangemaakt"
@@ -71,6 +104,12 @@ echo "3)  Beëindig de sessie"
 					cd ~/HDD/VM2/klant/high/$klant/
 					vagrant init
 					cp /home/vagrant/HDD/VM2/klant/low/klant1/productie/Vagrantfile Vagrantfile
+					touch ansible.cfg
+					touch inventory
+					printf "[defaults]\ninventory = inventory\nhost_key_checking = false" >> ansible.cfg
+					printf "[all:vars]\nansible_python_interpreter=/usr/bin/python3\n\n" >> inventory
+					printf "[webserver]\n\n\n\n[loadbalancer]\n\n\n\n[database]\n\n\n\n" >> inventory
+					fi
 					;;
 				* )	
 					echo -e '\0033\0143'
@@ -81,7 +120,7 @@ echo "3)  Beëindig de sessie"
 					;;
 			esac
 
-					echo -e '\0033\0143'
+					
 					echo "In wat voor omgeving wilt u uw omgeving plaatsen?"
 					printf "\n"
 					echo "Maak een keuze"
@@ -150,7 +189,8 @@ EOF
 										sed -i '7s|1|0|' Vagrantfile
 										sed -i '8s|1|0|' Vagrantfile
 										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
-										sed -i 's|192.168.20.2|192.168.20.5|' Vagrantfile
+										sed -i 's|192.168.20.1|192.168.20.5|' Vagrantfile
+										sed -i '5i\web01 ansible_host=192.168.20.51' inventory
 										vagrant up
 									elif [ -d "/home/vagrant/HDD/VM2/klant/mid/$klant" ]; then
 										cd ~/HDD/VM2/klant/mid/$klant/
@@ -159,7 +199,8 @@ EOF
 										sed -i '7s|1|0|' Vagrantfile
 										sed -i '8s|1|0|' Vagrantfile
 										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
-										sed -i 's|192.168.20.2|172.16.20.5|' Vagrantfile
+										sed -i 's|192.168.20.1|172.16.20.5|' Vagrantfile
+										sed -i '5i\web01 ansible_host=172.1620.51' inventory
 										vagrant up
 									else 
 										cd ~/HDD/VM2/klant/high/$klant/
@@ -168,22 +209,12 @@ EOF
 										sed -i '7s|1|0|' Vagrantfile
 										sed -i '8s|1|0|' Vagrantfile
 										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
-										sed -i 's|192.168.20.2|10.1.20.5|' Vagrantfile
+										sed -i 's|192.168.20.1|10.1.20.5|' Vagrantfile
+										sed -i '5i|10.1.20.51' inventory
+										sed -i '5i\web01 ansible_host=10.1.20.51' inventory
 										vagrant up
 									fi
-									
-
-
-
-
 									break
-
-
-
-
-
-
-
 									;;
 									
 								2 )	echo -e '\0033\0143'
@@ -214,32 +245,42 @@ EOF
 									if [ -d "/home/vagrant/HDD/VM2/klant/low/$klant" ]; then
 										cd ~/HDD/VM2/klant/low/$klant/
 										sed -i '5s|2|1|' Vagrantfile
-										sed -i '6s|1|0|' Vagrantfile
-										sed -i '7s|1|1|' Vagrantfile
+										sed -i '6s|0|0|' Vagrantfile
+										sed -i '7s|1|0|' Vagrantfile
+										sed -i '8s|1|1|' Vagrantfile
 										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
 										sed -i "s|klant1-productie-db0#{x}|$dbsrv1|g" Vagrantfile
-										sed -i 's|192.168.20.2|192.168.20.5|g' Vagrantfile
-										sed -i 's|192.168.20.4|192.168.20.7|g' Vagrantfile
+										sed -i 's|192.168.20.1|192.168.20.5|g' Vagrantfile
+										sed -i 's|192.168.20.4|192.168.20.8|g' Vagrantfile
+										sed -i '5i\web01 ansible_host=192.168.20.51' inventory
+										sed -i '17i\db01 ansible_host=192.168.20.81' inventory
 										vagrant up
 									elif [ -d "/home/vagrant/HDD/VM2/klant/mid/$klant" ]; then
 										cd ~/HDD/VM2/klant/mid/$klant/
 										sed -i '5s|2|1|' Vagrantfile
-										sed -i '6s|1|0|' Vagrantfile
-										sed -i '7s|1|1|' Vagrantfile
+										sed -i '6s|0|0|' Vagrantfile
+										sed -i '7s|1|0|' Vagrantfile
+										sed -i '8s|1|1|' Vagrantfile
 										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
 										sed -i "s|klant1-productie-db0#{x}|$dbsrv1|g" Vagrantfile
-										sed -i 's|192.168.20.2|172.16.20.5|g' Vagrantfile
-										sed -i 's|192.168.20.4|172.16.20.7|g' Vagrantfile
+										sed -i 's|192.168.20.1|172.16.20.5|g' Vagrantfile
+										sed -i 's|192.168.20.4|172.16.20.8|g' Vagrantfile
+										sed -i '5i\web01 ansible_host=172.16.20.51' inventory
+										sed -i '17i\db01 ansible_host=172.16.20.81' inventory
+
 										vagrant up
 									else 
 										cd ~/HDD/VM2/klant/high/$klant/
 										sed -i '5s|2|1|' Vagrantfile
-										sed -i '6s|1|0|' Vagrantfile
-										sed -i '7s|1|1|' Vagrantfile
+										sed -i '6s|0|0|' Vagrantfile
+										sed -i '7s|1|0|' Vagrantfile
+										sed -i '8s|1|1|' Vagrantfile
 										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
 										sed -i "s|klant1-productie-db0#{x}|$dbsrv1|g" Vagrantfile
-										sed -i 's|192.168.20.2|10.1.20.5|g' Vagrantfile
-										sed -i 's|192.168.20.4|10.1.20.7|g' Vagrantfile
+										sed -i 's|192.168.20.1|10.1.20.5|g' Vagrantfile
+										sed -i 's|192.168.20.4|10.1.20.8|g' Vagrantfile
+										sed -i '5i\web01 ansible_host=10.1.20.51' inventory
+										sed -i '17i\db01 ansible_host=10.1.20.81' inventory
 										vagrant up
 									fi
 									;;
@@ -283,49 +324,63 @@ EOF
 									if [ -d "/home/vagrant/HDD/VM2/klant/low/$klant" ]; then
 										cd ~/HDD/VM2/klant/low/$klant/
 										sed -i '5s|2|1|' Vagrantfile
-										sed -i '6s|1|1|' Vagrantfile
+										sed -i '6s|0|1|' Vagrantfile
 										sed -i '7s|1|1|' Vagrantfile
+										sed -i '8s|1|1|' Vagrantfile
 										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
+										sed -i "s|klant1-productie-web0#{q}|$wbsrv2|g" Vagrantfile
 										sed -i "s|klant1-productie-lb0#{y}|$lbsrv1|g" Vagrantfile
 										sed -i "s|klant1-productie-db0#{x}|$dbsrv1|g" Vagrantfile
-										sed -i 's|192.168.20.2|192.168.20.5|g' Vagrantfile
-										sed -i 's|192.168.20.3|192.168.20.6|g' Vagrantfile
-										sed -i 's|192.168.20.4|192.168.20.7|g' Vagrantfile
+										sed -i 's|192.168.20.1|192.168.20.5|g' Vagrantfile
+										sed -i 's|192.168.20.2|192.168.20.6|g' Vagrantfile
+										sed -i 's|192.168.20.3|192.168.20.7|g' Vagrantfile
+										sed -i 's|192.168.20.4|192.168.20.8|g' Vagrantfile
+										sed -i '5i\web01 ansible_host=192.168.20.51' inventory
+										sed -i '6i\web02 ansible_host=192.168.20.61' inventory
+										sed -i '12i\lb01 ansible_host=192.168.20.71' inventory
+										sed -i '17i\db01 ansible_host=192.168.20.81' inventory
 										vagrant up
-										sed -i "s|klant1-productie-web0#{i}|$wbsrv2|g" Vagrantfile
-										sed -i 's|192.168.20.5#{i}|192.168.20.52|g' Vagrantfile
-										vagrant up --provision
 
 									elif [ -d "/home/vagrant/HDD/VM2/klant/mid/$klant" ]; then
 										cd ~/HDD/VM2/klant/mid/$klant/
 										sed -i '5s|2|1|' Vagrantfile
-										sed -i '6s|1|1|' Vagrantfile
+										sed -i '6s|0|1|' Vagrantfile
 										sed -i '7s|1|1|' Vagrantfile
+										sed -i '8s|1|1|' Vagrantfile
 										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
+										sed -i "s|klant1-productie-web0#{q}|$wbsrv2|g" Vagrantfile
 										sed -i "s|klant1-productie-lb0#{y}|$lbsrv1|g" Vagrantfile
 										sed -i "s|klant1-productie-db0#{x}|$dbsrv1|g" Vagrantfile
-										sed -i 's|192.168.20.2|172.16.20.5|g' Vagrantfile
-										sed -i 's|192.168.20.3|172.16.20.6|g' Vagrantfile
-										sed -i 's|192.168.20.4|172.16.20.7|g' Vagrantfile
+										sed -i 's|192.168.20.1|172.16.20.5|g' Vagrantfile
+										sed -i 's|192.168.20.2|172.16.20.6|g' Vagrantfile
+										sed -i 's|192.168.20.3|172.16.20.7|g' Vagrantfile
+										sed -i 's|192.168.20.4|172.16.20.8|g' Vagrantfile
+										sed -i '5i\web01 ansible_host=172.16.20.51' inventory
+										sed -i '6i\web02 ansible_host=172.16.20.61' inventory
+										sed -i '12i\lb01 ansible_host=172.16.20.71' inventory
+										sed -i '17i\db01 ansible_host=172.16.20.81' inventory
 										vagrant up
-										sed -i "s|klant1-productie-web0#{i}|$wbsrv2|g" Vagrantfile
-										sed -i 's|192.168.20.5#{i}|172.16.20.52|g' Vagrantfile
-										vagrant up --provision
+
 									else 
 										cd ~/HDD/VM2/klant/high/$klant/
 										sed -i '5s|2|1|' Vagrantfile
-										sed -i '6s|1|1|' Vagrantfile
+										sed -i '6s|0|1|' Vagrantfile
 										sed -i '7s|1|1|' Vagrantfile
+										sed -i '8s|1|1|' Vagrantfile
 										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
+										sed -i "s|klant1-productie-web0#{q}|$wbsrv2|g" Vagrantfile
 										sed -i "s|klant1-productie-lb0#{y}|$lbsrv1|g" Vagrantfile
 										sed -i "s|klant1-productie-db0#{x}|$dbsrv1|g" Vagrantfile
-										sed -i 's|192.168.20.2|10.1.20.5|g' Vagrantfile
-										sed -i 's|192.168.20.3|10.1.20.6|g' Vagrantfile
-										sed -i 's|192.168.20.4|10.1.20.7|g' Vagrantfile
+										sed -i 's|192.168.20.1|10.1.20.5|g' Vagrantfile
+										sed -i 's|192.168.20.2|10.1.20.6|g' Vagrantfile
+										sed -i 's|192.168.20.3|10.1.20.7|g' Vagrantfile
+										sed -i 's|192.168.20.4|10.1.20.8|g' Vagrantfile
+										sed -i '5i\web01 ansible_host=10.1.20.51' inventory
+										sed -i '6i\web02 ansible_host=10.1.20.61' inventory
+										sed -i '12i\lb01 ansible_host=10.1.20.71' inventory
+										sed -i '17i\db01 ansible_host=10.1.20.81' inventory
 										vagrant up
-										sed -i "s|$wbsrv1|$wbsrv2|g" Vagrantfile
-										sed -i 's|192.168.20.5#{i}|10.1.20.52|g' Vagrantfile
-										vagrant up --provision
+
 									fi
 									;;
 								* )	
@@ -336,8 +391,153 @@ EOF
 									break
 							esac
 							;;
+			2  )	echo -e '\0033\0143'
+					echo "Typ uw naam in om je omgeving aan te passen!"
+					read definitief1
+					printf "\n"
+					echo "----------------------------"
+					echo "Typ uw tier in"
+					read definitief2
+					printf "\n"
+				
+											
+					if [ -d "/home/vagrant/HDD/VM2/klant/$definitief2/$definitief1" ]; then
+						echo -e '\0033\0143'
+							echo "Kies het serverpakket"
+							printf "\n"
+							echo  "Maak een keuze"
+							echo "-------------------------"
+							echo "1)  Webserver"
+							echo "2)  Webserver / Database"
+							echo "3)  Webserver x2 / Loadbalancer / Database"
+						    printf "\n"
+						   	read id
+						  	echo "----------------------------"
+							echo "In wat voor omgeving wilt u uw omgeving plaatsen?"
+							printf "\n"
+							echo "Maak een keuze"
+							echo "---------------------------"
+							echo "Typ in : Productie"
+							echo "Typ in : Test"
+							read omgeving
+							printf "\n"
+							echo "Kies uit de volgende opties"
+							printf "\n"
+							echo  "Maak een keuze"
+							echo "--------------------"
+							echo "1)  1024 MB RAM"
+							echo "2)  1536 MB RAM"
+							echo "3)  2048 MB RAM"
+							echo "--------------------"
+							printf "\n"
+							read ram
+
+
+
+						cd ~/HDD/VM2/klant/$definitief2/$definitief1/
+						echo "----------------------------"
+						echo "uw omgeving wordt aangepast."
+						echo "----------------------------"
+						vagrant destroy --force
+						rm -rf /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1
+						mysql --login-path=local skylab<< EOF
+						DELETE from customer where servernaam like '%$definitief1%';
+EOF
+						mkdir /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1
+						cd /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1/
+						cp /home/vagrant/HDD/VM2/klant/low/klant1/productie/Vagrantfile Vagrantfile
+						vagrant init
+						echo -e '\0033\0143'
+						touch ansible.cfg
+						touch inventory
+						printf "[defaults]\ninventory = inventory\nhost_key_checking = false" >> ansible.cfg
+						printf "[all:vars]\nansible_python_interpreter=/usr/bin/python3\n\n" >> inventory
+						printf "[webserver]\n\n\n\n[loadbalancer]\n\n\n\n[database]\n\n\n\n" >> inventory
+						case $id in
+								1 )	cd /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1/
+									id="1"
+									wbsrv1="$definitief1-$omgeving-wbsrv0$id"
+									sed -i '5s|2|1|' Vagrantfile
+									sed -i '6s|0|0|' Vagrantfile
+									sed -i '7s|1|0|' Vagrantfile
+									sed -i '8s|1|0|' Vagrantfile
+									sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
+									sed -i 's|192.168.20.1|192.168.20.5|' Vagrantfile
+									sed -i '5i\web01 ansible_host=192.168.20.51' inventory
+									case $ram in
+										1 ) 
+												sed -i '16s|512|1024|' Vagrantfile
+												sed -i '29s|512|1024|' Vagrantfile
+												sed -i '42s|512|1024|' Vagrantfile
+												sed -i '55s|512|1024|' Vagrantfile
+												;;
+										2 )
+												sed -i '16s|512|1536|' Vagrantfile
+												sed -i '29s|512|1536|' Vagrantfile
+												sed -i '42s|512|1536|' Vagrantfile
+												sed -i '55s|512|1536|' Vagrantfile
+
+												;;												
+										3 )	
+												sed -i '16s|512|2048|' Vagrantfile
+												sed -i '29s|512|2048|' Vagrantfile
+												sed -i '42s|512|2048|' Vagrantfile
+												sed -i '55s|512|2048|' Vagrantfile
+										esac
+										vagrant up
+										;;
+								2 ) 
+									cd /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1/
+									sed -i '5s|2|1|' Vagrantfile
+									sed -i '6s|0|0|' Vagrantfile
+									sed -i '7s|1|0|' Vagrantfile
+									sed -i '8s|1|0|' Vagrantfile
+									sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
+									sed -i 's|192.168.20.1|172.16.20.5|' Vagrantfile
+									sed -i '5i\web01 ansible_host=172.16.20.51' inventory
+
+
+									;;
+								3 ) 
+									cd /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1/
+									sed -i '16s|512|2048|' Vagrantfile
+									sed -i '29s|512|2048|' Vagrantfile
+									sed -i '42s|512|2048|' Vagrantfile
+									sed -i '55s|512|2048|' Vagrantfile
+									;;
+
+								* ) 
+									echo -e '\0033\0143'
+									echo "----------------------------------------------------------------"
+									echo " U heeft de verkeerde optie gekozen, het portaal wordt gesloten"
+									echo "----------------------------------------------------------------"
+									break
+								esac
+						echo "--------------------"
+						echo "Moment alstublieft"
+						echo "--------------------"
 						
-			2) 	echo -e '\0033\0143'
+
+
+						else
+							echo "----------------------------------------"
+							echo "U heeft de verkeerde gegevens in gevuld," 
+							echo "of u heeft geen omgeving aangemaakt."
+							echo "----------------------------------------"
+
+						
+							
+						fi
+						;;
+
+
+
+
+
+
+
+			
+			3) 	echo -e '\0033\0143'
 				printf "\n"
 				echo "Wilt u uw omgeving verwijderen?"
 				printf "\n"
@@ -364,6 +564,7 @@ EOF
 								echo "Typ uw naam in om het verwijderen te bevestigen!"
 								read definitief1
 								echo "----------------------------"
+								printf "\n"
 								echo "Typ uw tier in"
 								read definitief2
 								echo "----------------------------"
@@ -393,7 +594,6 @@ EOF
 									mid )		echo -e '\0033\0143'
 											if [ -d "/home/vagrant/HDD/VM2/klant/$definitief2/$definitief1" ]; then
 												cd /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1/
-												sed -i "s|$wbsrv2|$wbsrv1|g" Vagrantfile
 												vagrant destroy --force
 												rm -rf /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1
 												mysql --login-path=local skylab<< EOF
@@ -415,7 +615,6 @@ EOF
 									high ) 	echo -e '\0033\0143'
 											if [ -d "/home/vagrant/HDD/VM2/klant/$definitief2/$definitief1" ]; then
 												cd /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1/
-												sed -i "s|$wbsrv2|$wbsrv1|g" Vagrantfile
 												vagrant destroy --force
 												rm -rf /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1
 												mysql --login-path=local skylab<< EOF
@@ -461,7 +660,10 @@ EOF
 				esac
 				;;
 
-			3 )	
+
+
+			4 )	
+
 				echo -e '\0033\0143'
 				;;
 				
