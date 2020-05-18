@@ -6,10 +6,17 @@
   roles:
     - webserver
 
-#- name: Apply database configuration
-#  hosts: [database]
-#  become: true
+- name: Apply Loadbalancer configuration
+  hosts: [loadbalancer]
+  become: true
+
+  roles:
+    - loadbalancer
+
+- name: Apply database configuration
+  hosts: [database]
+  become: true
 
 
-#  roles:
-#    - database
+  roles:
+    - database
