@@ -1,4 +1,5 @@
 #!/bin/bash
+echo -e '\0033\0143'
 echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 echo "@                                                       @"
 echo "@ | SELF-SERVICE PORTAL | COENRAAD KEUNING | S1132172 | @"
@@ -174,14 +175,14 @@ echo "4)  Beëindig de sessie"
 									wbsrv1="$klant-$omgeving-wbsrv0$id"
 									echo "---------------------------"
 									echo "$wbsrv1"
-									echo "----------------------------"
+									echo "---------------------------------------------"
 									mysql --login-path=local skylab<< EOF
 									insert into customer (klant,omgeving,servernaam) values ('$klant' , 
 									'$omgeving', '$wbsrv1');
 EOF
 									
 									echo "Uw server wordt gestart, moment alsublieft"
-									echo "----------------------------"
+									echo "---------------------------------------------"
 									if [ -d "/home/vagrant/HDD/VM2/klant/low/$klant" ]; then
 										cd ~/HDD/VM2/klant/low/$klant/
 										sed -i '5s|2|1|' Vagrantfile
@@ -399,8 +400,7 @@ EOF
 					echo "Typ uw tier in"
 					read definitief2
 					printf "\n"
-				
-											
+
 					if [ -d "/home/vagrant/HDD/VM2/klant/$definitief2/$definitief1" ]; then
 						echo -e '\0033\0143'
 							echo "Kies het serverpakket"
@@ -462,8 +462,17 @@ EOF
 									sed -i '7s|1|0|' Vagrantfile
 									sed -i '8s|1|0|' Vagrantfile
 									sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
-									sed -i 's|192.168.20.1|192.168.20.5|' Vagrantfile
-									sed -i '5i\web01 ansible_host=192.168.20.51' inventory
+									if [[ $definitief2=="low" ]]; then
+										sed -i 's|192.168.20.1|192.168.20.5|' Vagrantfile
+										sed -i '5i\web01 ansbile_host=192.168.20.51' inventory
+									elif [[ $definitief=="mid" ]]; then
+										sed -i 's|192.168.20.1|172.16.20.5|' Vagrantfile
+										sed -i '5i\web01 ansbile_host=172.16.20.51' inventory
+									else
+										sed -i 's|192.168.20.1|10.1.20.5|' Vagrantfile
+										sed -i '5i\web01 ansbile_host=10.1.20.51' inventory
+									fi
+									
 									case $ram in
 										1 ) 
 												sed -i '16s|512|1024|' Vagrantfile
@@ -484,20 +493,66 @@ EOF
 												sed -i '42s|512|2048|' Vagrantfile
 												sed -i '55s|512|2048|' Vagrantfile
 										esac
+										echo -e '\0033\0143'
+										echo "--------------------"
+										echo "Moment alstublieft"
+										echo "--------------------"
 										vagrant up
 										;;
 								2 ) 
 									cd /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1/
-									sed -i '5s|2|1|' Vagrantfile
-									sed -i '6s|0|0|' Vagrantfile
-									sed -i '7s|1|0|' Vagrantfile
-									sed -i '8s|1|0|' Vagrantfile
-									sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
-									sed -i 's|192.168.20.1|172.16.20.5|' Vagrantfile
-									sed -i '5i\web01 ansible_host=172.16.20.51' inventory
+									id="1"
+									wbsrv1="$definitief1-$omgeving-wbsrv0$id"
+									dbsrv1="$definitief1-$omgeving-dbsrv0$id"
+										sed -i '5s|2|1|' Vagrantfile
+										sed -i '6s|0|0|' Vagrantfile
+										sed -i '7s|1|0|' Vagrantfile
+										sed -i '8s|1|1|' Vagrantfile
+										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
+										sed -i "s|klant1-productie-db0#{x}|$dbsrv1|g" Vagrantfile
+										
+									if [[ $definitief2=="low" ]]; then
+										sed -i 's|192.168.20.1|192.168.20.5|' Vagrantfile
+										sed -i 's|192.168.20.1|192.168.20.8|' Vagrantfile
+										sed -i '5i\web01 ansbile_host=192.168.20.51' inventory
+										sed -i '17i\db01 ansbile_host=192.168.20.81' inventory
+									elif [[ $definitief=="mid" ]]; then
+										sed -i 's|192.168.20.1|172.16.20.5|' Vagrantfile
+										sed -i 's|192.168.20.1|192.168.20.8|' Vagrantfile
+										sed -i '5i\web01 ansbile_host=172.16.20.51' inventory
+										sed -i '17i\db01 ansbile_host=172.16.20.81' inventory
+									else
+										sed -i 's|192.168.20.1|10.1.20.5|' Vagrantfile
+										sed -i 's|192.168.20.1|192.168.20.8|' Vagrantfile
+										sed -i '5i\web01 ansbile_host=10.1.20.51' inventory
+										sed -i '17i\db01 ansbile_host10.1.20.81' inventory
+									fi
+									case $ram in
+										1 ) 
+												sed -i '16s|512|1024|' Vagrantfile
+												sed -i '29s|512|1024|' Vagrantfile
+												sed -i '42s|512|1024|' Vagrantfile
+												sed -i '55s|512|1024|' Vagrantfile
+												;;
+										2 )
+												sed -i '16s|512|1536|' Vagrantfile
+												sed -i '29s|512|1536|' Vagrantfile
+												sed -i '42s|512|1536|' Vagrantfile
+												sed -i '55s|512|1536|' Vagrantfile
 
-
-									;;
+												;;												
+										3 )	
+												sed -i '16s|512|2048|' Vagrantfile
+												sed -i '29s|512|2048|' Vagrantfile
+												sed -i '42s|512|2048|' Vagrantfile
+												sed -i '55s|512|2048|' Vagrantfile
+										esac
+										echo -e '\0033\0143'
+										echo "--------------------"
+										echo "Moment alstublieft"
+										echo "--------------------"
+										vagrant up
+										;;
 								3 ) 
 									cd /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1/
 									sed -i '16s|512|2048|' Vagrantfile
@@ -513,9 +568,7 @@ EOF
 									echo "----------------------------------------------------------------"
 									break
 								esac
-						echo "--------------------"
-						echo "Moment alstublieft"
-						echo "--------------------"
+						
 						
 
 
@@ -580,7 +633,7 @@ EOF
 												DELETE from customer where servernaam like '%$definitief1%';
 EOF
 												echo "----------------------------"
-												echo "uw omgeving is verwijderd"
+												echo "Uw omgeving is verwijderd"
 												echo "----------------------------"
 
 												else
