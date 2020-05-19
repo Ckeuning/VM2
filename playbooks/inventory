@@ -2,8 +2,8 @@
 ansible_python_interpreter=/usr/bin/python3
 
 [webservers]
-web01 ansible_host=192.168.20.21
-web02 ansible_host=192.168.20.22
+web01 ansible_host=192.168.20.11
+web02 ansible_host=192.168.20.12
 
 [loadbalancer]
 lb01 ansible_host=192.168.20.31
