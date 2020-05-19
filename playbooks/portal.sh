@@ -232,7 +232,7 @@ EOF
 									'$omgeving', '$wbsrv1');
 EOF
 									printf "\n"
-									dbsrv1="$klant-$omgeving-db0$id"
+									dbsrv1="$klant-$omgeving-dbsrv0$id"
 									
 									echo "$dbsrv1"
 									echo "----------------------------"
@@ -254,7 +254,7 @@ EOF
 										sed -i 's|192.168.20.1|192.168.20.5|g' Vagrantfile
 										sed -i 's|192.168.20.4|192.168.20.8|g' Vagrantfile
 										sed -i '5i\web01 ansible_host=192.168.20.51' inventory
-										sed -i '17i\db01 ansible_host=192.168.20.81' inventory
+										sed -i '14i\db01 ansible_host=192.168.20.81' inventory
 										vagrant up
 									elif [ -d "/home/vagrant/HDD/VM2/klant/mid/$klant" ]; then
 										cd ~/HDD/VM2/klant/mid/$klant/
@@ -267,9 +267,9 @@ EOF
 										sed -i 's|192.168.20.1|172.16.20.5|g' Vagrantfile
 										sed -i 's|192.168.20.4|172.16.20.8|g' Vagrantfile
 										sed -i '5i\web01 ansible_host=172.16.20.51' inventory
-										sed -i '17i\db01 ansible_host=172.16.20.81' inventory
-
+										sed -i '14i\db01 ansible_host=172.16.20.81' inventory
 										vagrant up
+									
 									else 
 										cd ~/HDD/VM2/klant/high/$klant/
 										sed -i '5s|2|1|' Vagrantfile
@@ -281,7 +281,7 @@ EOF
 										sed -i 's|192.168.20.1|10.1.20.5|g' Vagrantfile
 										sed -i 's|192.168.20.4|10.1.20.8|g' Vagrantfile
 										sed -i '5i\web01 ansible_host=10.1.20.51' inventory
-										sed -i '17i\db01 ansible_host=10.1.20.81' inventory
+										sed -i '14i\db01 ansible_host=10.1.20.81' inventory
 										vagrant up
 									fi
 									;;
@@ -464,13 +464,13 @@ EOF
 									sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
 									if [[ $definitief2=="low" ]]; then
 										sed -i 's|192.168.20.1|192.168.20.5|' Vagrantfile
-										sed -i '5i\web01 ansbile_host=192.168.20.51' inventory
+										sed -i '5i\web01 ansible_host=192.168.20.51' inventory
 									elif [[ $definitief=="mid" ]]; then
 										sed -i 's|192.168.20.1|172.16.20.5|' Vagrantfile
-										sed -i '5i\web01 ansbile_host=172.16.20.51' inventory
+										sed -i '5i\web01 ansible_host=172.16.20.51' inventory
 									else
 										sed -i 's|192.168.20.1|10.1.20.5|' Vagrantfile
-										sed -i '5i\web01 ansbile_host=10.1.20.51' inventory
+										sed -i '5i\web01 ansible_host=10.1.20.51' inventory
 									fi
 									
 									case $ram in
@@ -513,19 +513,19 @@ EOF
 										
 									if [[ $definitief2=="low" ]]; then
 										sed -i 's|192.168.20.1|192.168.20.5|' Vagrantfile
-										sed -i 's|192.168.20.1|192.168.20.8|' Vagrantfile
-										sed -i '5i\web01 ansbile_host=192.168.20.51' inventory
-										sed -i '17i\db01 ansbile_host=192.168.20.81' inventory
-									elif [[ $definitief=="mid" ]]; then
+										sed -i 's|192.168.20.4|192.168.20.8|' Vagrantfile
+										sed -i '5i\web01 ansible_host=192.168.20.51' inventory
+										sed -i '14i\db01 ansible_host=192.168.20.81' inventory
+									elif [[ $definitief2=="mid" ]]; then
 										sed -i 's|192.168.20.1|172.16.20.5|' Vagrantfile
-										sed -i 's|192.168.20.1|192.168.20.8|' Vagrantfile
-										sed -i '5i\web01 ansbile_host=172.16.20.51' inventory
-										sed -i '17i\db01 ansbile_host=172.16.20.81' inventory
+										sed -i 's|192.168.20.4|172.16.20.8|' Vagrantfile
+										sed -i '5i\web01 ansible_host=172.16.20.51' inventory
+										sed -i '14i\db01 ansible_host=172.16.20.81' inventory
 									else
 										sed -i 's|192.168.20.1|10.1.20.5|' Vagrantfile
-										sed -i 's|192.168.20.1|192.168.20.8|' Vagrantfile
-										sed -i '5i\web01 ansbile_host=10.1.20.51' inventory
-										sed -i '17i\db01 ansbile_host10.1.20.81' inventory
+										sed -i 's|192.168.20.4|10.1.20.8|' Vagrantfile
+										sed -i '5i\web01 ansible_host=10.1.20.51' inventory
+										sed -i '14i\db01 ansible_host=10.1.20.81' inventory
 									fi
 									case $ram in
 										1 ) 
@@ -555,11 +555,76 @@ EOF
 										;;
 								3 ) 
 									cd /home/vagrant/HDD/VM2/klant/$definitief2/$definitief1/
-									sed -i '16s|512|2048|' Vagrantfile
-									sed -i '29s|512|2048|' Vagrantfile
-									sed -i '42s|512|2048|' Vagrantfile
-									sed -i '55s|512|2048|' Vagrantfile
-									;;
+									id="1"
+									wbsrv1="$definitief1-$omgeving-wbsrv0$id"
+									id="2"
+									wbsrv2="$definitief1-$omgeving-wbsrv0$id"
+									id="1"
+									lbsrv1="$definitief1-$omgeving-lbsrv0$id"
+									dbsrv1="$definitief1-$omgeving-dbsrv0$id"
+										sed -i '5s|2|1|' Vagrantfile
+										sed -i '6s|0|1|' Vagrantfile
+										sed -i '7s|1|1|' Vagrantfile
+										sed -i '8s|1|1|' Vagrantfile
+										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
+										sed -i "s|klant1-productie-web0#{q}|$wbsrv2|g" Vagrantfile
+										sed -i "s|klant1-productie-lb0#{y}|$lbsrv1|g" Vagrantfile
+										sed -i "s|klant1-productie-db0#{x}|$dbsrv1|g" Vagrantfile
+										
+									if [[ $definitief2=="low" ]]; then
+										sed -i 's|192.168.20.1|192.168.20.5|' Vagrantfile
+										sed -i 's|192.168.20.2|192.168.20.6|' Vagrantfile
+										sed -i 's|192.168.20.3|192.168.20.7|' Vagrantfile
+										sed -i 's|192.168.20.4|192.168.20.8|' Vagrantfile
+										sed -i '5i\web01 ansible_host=192.168.20.51' inventory
+										sed -i '6i\web02 ansible_host=192.168.20.61' inventory
+										sed -i '12i\lb01 ansible_host=192.168.20.71' inventory
+										sed -i '17i\db01 ansible_host=192.168.20.81' inventory
+									elif [[ $definitief2=="mid" ]]; then
+										sed -i 's|192.168.20.1|172.16.20.5|' Vagrantfile
+										sed -i 's|192.168.20.2|172.16.20.6|' Vagrantfile
+										sed -i 's|192.168.20.3|172.16.20.7|' Vagrantfile
+										sed -i 's|192.168.20.4|172.16.20.8|' Vagrantfile
+										sed -i '5i\web01 ansible_host=172.16.20.51' inventory
+										sed -i '6i\web02 ansible_host=172.16.20.61' inventory
+										sed -i '12i\lb01 ansible_host=172.16.20.71' inventory
+										sed -i '17i\db01 ansible_host=172.16.20.81' inventory
+									else
+										sed -i 's|192.168.20.1|10.1.20.5|' Vagrantfile
+										sed -i 's|192.168.20.2|10.1.20.6|' Vagrantfile
+										sed -i 's|192.168.20.3|10.1.20.7|' Vagrantfile
+										sed -i 's|192.168.20.4|10.1.20.8|' Vagrantfile
+										sed -i '5i\web01 ansible_host=10.1.20.51' inventory
+										sed -i '6i\web02 ansible_host=10.1.20.61' inventory
+										sed -i '12i\lb01 ansible_host=10.1.20.71' inventory
+										sed -i '17i\db01 ansible_host=10.1.20.81' inventory
+									fi
+									case $ram in
+										1 ) 
+												sed -i '16s|512|1024|' Vagrantfile
+												sed -i '29s|512|1024|' Vagrantfile
+												sed -i '42s|512|1024|' Vagrantfile
+												sed -i '55s|512|1024|' Vagrantfile
+												;;
+										2 )
+												sed -i '16s|512|1536|' Vagrantfile
+												sed -i '29s|512|1536|' Vagrantfile
+												sed -i '42s|512|1536|' Vagrantfile
+												sed -i '55s|512|1536|' Vagrantfile
+
+												;;												
+										3 )	
+												sed -i '16s|512|2048|' Vagrantfile
+												sed -i '29s|512|2048|' Vagrantfile
+												sed -i '42s|512|2048|' Vagrantfile
+												sed -i '55s|512|2048|' Vagrantfile
+										esac
+										echo -e '\0033\0143'
+										echo "--------------------"
+										echo "Moment alstublieft"
+										echo "--------------------"
+										vagrant up
+										;;
 
 								* ) 
 									echo -e '\0033\0143'

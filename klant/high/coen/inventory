@@ -1,0 +1,19 @@
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
+
+[webserver]
+web01 ansible_host=192.168.20.51
+web02 ansible_host=192.168.20.61
+
+
+
+[loadbalancer]
+
+lb01 ansible_host=192.168.20.71
+
+
+[database]
+
+db01 ansible_host=192.168.20.81
+
+
