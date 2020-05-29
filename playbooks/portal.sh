@@ -200,8 +200,8 @@ EOF
 										sed -i '7s|1|0|' Vagrantfile
 										sed -i '8s|1|0|' Vagrantfile
 										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
-										sed -i 's|192.168.20.1|172.16.20.5|' Vagrantfile
-										sed -i '5i\web01 ansible_host=172.1620.51' inventory
+										sed -i 's192.168.20.1|172.16.20.5|' Vagrantfile
+										sed -i '5i\web01 ansible_host=172.16.20.51' inventory
 										vagrant up
 									else 
 										cd ~/HDD/VM2/klant/high/$klant/
@@ -211,7 +211,6 @@ EOF
 										sed -i '8s|1|0|' Vagrantfile
 										sed -i "s|klant1-productie-web0#{i}|$wbsrv1|g" Vagrantfile
 										sed -i 's|192.168.20.1|10.1.20.5|' Vagrantfile
-										sed -i '5i|10.1.20.51' inventory
 										sed -i '5i\web01 ansible_host=10.1.20.51' inventory
 										vagrant up
 									fi
